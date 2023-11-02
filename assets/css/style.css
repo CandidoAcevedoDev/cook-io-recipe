@@ -89,46 +89,46 @@
   }
 }
 
-[data-theme="light"] {
+:root[data-theme="light"] {
   color-scheme: light;
 
-  --background: var(light-background);
-  --on-background: var(light-on-background);
-  --on-background-variant: var(light-on-background-variant);
-  --primary: var(light-primary);
-  --primary-hover: var(light-primary-hover);
-  --primary-container: var(light-primary-container);
-  --error: var(light-error);
-  --active-indicator: var(light-active-indicator);
-  --image-background: var(light-image-background);
-  --badge-btn: var(light-badge-btn);
-  --on-badge-btn: var(light-on-badge-btn);
-  --outline: var(light-outline);
-  --input-outline: var(light-input-outline);
-  --input-outline-hover: var(light-input-outline-hover);
-  --alpha-10: var(light-alpha-10);
-  --alpha-20: var(light-alpha-20);
+  --background: var(--light-background);
+  --on-background: var(--light-on-background);
+  --on-background-variant: var(--light-on-background-variant);
+  --primary: var(--light-primary);
+  --primary-hover: var(--light-primary-hover);
+  --primary-container: var(--light-primary-container);
+  --error: var(--light-error);
+  --active-indicator: var(--light-active-indicator);
+  --image-background: var(--light-image-background);
+  --badge-btn: var(--light-badge-btn);
+  --on-badge-btn: var(--light-on-badge-btn);
+  --outline: var(--light-outline);
+  --input-outline: var(--light-input-outline);
+  --input-outline-hover: var(--light-input-outline-hover);
+  --alpha-10: var(--light-alpha-10);
+  --alpha-20: var(--light-alpha-20);
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   color-scheme: dark;
 
-  --background: var(dark-background);
-  --on-background: var(dark-on-background);
-  --on-background-variant: var(dark-on-background-variant);
-  --primary: var(dark-primary);
-  --primary-hover: var(dark-primary-hover);
-  --primary-container: var(dark-primary-container);
-  --error: var(dark-error);
-  --active-indicator: var(dark-active-indicator);
-  --image-background: var(dark-image-background);
-  --badge-btn: var(dark-badge-btn);
-  --on-badge-btn: var(dark-on-badge-btn);
-  --outline: var(dark-outline);
-  --input-outline: var(dark-input-outline);
-  --input-outline-hover: var(dark-input-outline-hover);
-  --alpha-10: var(dark-alpha-10);
-  --alpha-20: var(dark-alpha-20);
+  --background: var(--dark-background);
+  --on-background: var(--dark-on-background);
+  --on-background-variant: var(--dark-on-background-variant);
+  --primary: var(--dark-primary);
+  --primary-hover: var(--dark-primary-hover);
+  --primary-container: var(--dark-primary-container);
+  --error: var(--dark-error);
+  --active-indicator: var(--dark-active-indicator);
+  --image-background: var(--dark-image-background);
+  --badge-btn: var(--dark-badge-btn);
+  --on-badge-btn: var(--dark-on-badge-btn);
+  --outline: var(--dark-outline);
+  --input-outline: var(--dark-input-outline);
+  --input-outline-hover: var(--dark-input-outline-hover);
+  --alpha-10: var(--dark-alpha-10);
+  --alpha-20: var(--dark-alpha-20);
 }
 
 /*-----------------------------------*\
@@ -297,6 +297,30 @@ main {
 /*-----------------------------------*\
   #REUSED STYLE
 \*-----------------------------------*/
+.has-state {
+  position: relative;
+  overflow: hidden;
+}
+
+.has-state::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transition: var(--transition-short);
+  z-index: -1;
+}
+
+.has-state:where(:hover, :focus-visible):not(:active)::after {
+  background-color: var(--alpha-10);
+}
+
+.material-symbols-outlined {
+  display: block;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  font-variation-settings: "FILL" 0 "wght" 400 "GRAD" 0 "opsz" 24;
+}
 
 /*-----------------------------------*\
   #COMPONENTS
@@ -317,14 +341,53 @@ main {
 /**
  * Icon Button
  */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background-color: var(--primary-container);
+  border-radius: var(--radius-circle);
+}
 
 /**
  * Button
  */
+.btn {
+  height: 40px;
+  max-width: max-content;
+  padding-inline: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-8);
+  transition: var(--transition-short);
+}
+
+.btn,
+.material-symbols-outlined {
+  font-size: 1.8rem;
+}
+
+.btn.has-icon {
+  padding-inline-start: 16px;
+}
 
 /* primary button */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:where(:hover, :focus-visible):not(:active) {
+  background-color: var(--primary-hover);
+}
 
 /* secondary button */
+.btn-secondary {
+  background-color: var(--primary-container);
+}
 
 /* badge button */
 
@@ -353,6 +416,36 @@ main {
 /*-----------------------------------*\
   #HEADER
 \*-----------------------------------*/
+.navbar,
+.header,
+.btn-primary {
+  display: none;
+}
+
+.header {
+  background-color: var(--background);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-inline: 16px;
+  border-block-end: 1px solid var(--outline);
+  z-index: 4;
+}
+
+.theme-switch {
+  margin-inline-start: auto;
+}
+
+[data-theme="light"] :where(.logo-dark, .theme-switch .light-icon),
+[data-theme="dark"] :where(.logo-light, .theme-switch .dark-icon) {
+  display: none;
+}
 
 /*-----------------------------------*\
   #HERO
